@@ -1,4 +1,5 @@
 const Book = require('../model/Book');
+const fs = require('fs')
 
 class BookService {
 
@@ -33,7 +34,9 @@ class BookService {
                     books.push(newBook);
                     resolve(newBook)
                 } else {
+                    deleteBookFile(fileBook);
                     reject("Validate error.");
+
                 }
             }
         )
@@ -68,6 +71,8 @@ class BookService {
     async delete(id) {
         let idx = books.findIndex(book => book.getId() === id);
         if (idx !== -1) {
+            let {fileBook} = books[idx]
+            deleteBookFile(fileBook);
             books.splice(idx, 1);
         }
     }
@@ -79,7 +84,18 @@ async function getById(id) {
 }
 
 function validate(id, title, description, authors, favorite, fileCover, fileName, fileBook) {
-    return !(id === undefined || title === undefined || description === undefined || authors === undefined || favorite === undefined || fileCover === undefined || fileName === undefined || fileBook === undefined);
+    if (id === undefined || title === undefined || description === undefined || authors === undefined || favorite === undefined || fileCover === undefined || fileName === undefined || fileBook === undefined) {
+        return false
+    }
+    return !(id === '' || title === '' || description === '' || authors === '' || favorite === '' || fileCover === '' || fileName === '' || fileBook === '');
+}
+
+async function deleteBookFile(path) {
+    fs.unlink(path, (err) => {
+        if (err) {
+            console.error(err)
+        }
+    });
 }
 
 const books = [];
