@@ -1,13 +1,12 @@
 const express = require('express')
-const BookService = require('../service/BookService');
-const fileMulter = require('../middleware/file')
-const path = require('node:path');
+const BookService = require('../../service/BookService');
+const fileMulter = require('../../middleware/file')
 
 const bookService = new BookService();
 
 const router = express.Router()
 
-router.get("", (req, res) => {
+router.get("/", (req, res) => {
     bookService.getAll()
         .then(books => {
             res.render('books/index', {
@@ -94,19 +93,6 @@ router.post("/update/:id", (req, res) => {
                 title: 'Book not found: 404'
             })
         });
-})
-
-router.get("/download/:id", (req, res) => {
-    const {id} = req.params
-    bookService.getById(id)
-        .then(book => {
-            res.status(200);
-            res.sendFile(path.join(__dirname, '..', book.fileBook))
-        })
-        .catch(() => {
-            res.status(404);
-            res.send();
-        })
 })
 
 router.post("/delete/:id", (req, res) => {
