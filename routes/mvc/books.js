@@ -1,6 +1,6 @@
-const express = require('express')
+const express = require('express');
 const BookService = require('../../service/BookService');
-const fileMulter = require('../../middleware/file')
+const fileMulter = require('../../middleware/file');
 
 const bookService = new BookService();
 
@@ -16,8 +16,8 @@ router.get("/", (req, res) => {
         })
 })
 
-router.get("/book/:id", (req, res) => {
-    const {id} = req.params
+router.get("/book/:id", async (req, res) => {
+    const {id} = req.params;
     bookService.getById(id)
         .then(book => {
             res.render('books/view', {

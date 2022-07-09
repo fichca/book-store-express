@@ -1,6 +1,6 @@
 class Book {
 
-    constructor(id, title, description, authors, favorite, fileCover, fileName, fileBook) {
+    constructor(id, title, description, authors, favorite, fileCover, fileName, fileBook, views) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -9,6 +9,7 @@ class Book {
         this.fileCover = fileCover;
         this.fileName = fileName;
         this.fileBook = fileBook;
+        this.views = views;
     }
 
     id;
@@ -19,6 +20,7 @@ class Book {
     fileCover;
     fileName;
     fileBook;
+    views;
 
 
     getId() {
@@ -83,6 +85,14 @@ class Book {
 
     setFileBook(value) {
         this.fileBook = value;
+    }
+
+    getViews() {
+        return this.views;
+    }
+
+    setViews(value) {
+        this.views = value;
     }
 }
 

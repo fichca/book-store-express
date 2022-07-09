@@ -1,5 +1,7 @@
 const Book = require('../model/Book');
 const fs = require('fs')
+const {counterUrl} = require("../config/config");
+const axios = require("axios");
 
 class BookService {
 
@@ -18,9 +20,17 @@ class BookService {
     }
 
     getById(id) {
+        const viewsPromise = getCountViews(id);
         return new Promise(async (resolve, reject) => {
             if (this.existById(id)) {
-                resolve(await getById(id));
+                getById(id)
+                    .then(book => {
+                        viewsPromise
+                            .then(views => {
+                                book.setViews(views);
+                                resolve(book);
+                            })
+                    })
             } else {
                 reject("Not found");
             }
@@ -30,7 +40,7 @@ class BookService {
     create(id, title, description, authors, favorite, fileCover, fileName, fileBook) {
         return new Promise((resolve, reject) => {
                 if (validate(id, title, description, authors, favorite, fileCover, fileName, fileBook)) {
-                    let newBook = new Book(id, title, description, authors, favorite, fileCover, fileName, fileBook);
+                    let newBook = new Book(id, title, description, authors, favorite, fileCover, fileName, fileBook, 0);
                     books.push(newBook);
                     resolve(newBook)
                 } else {
@@ -76,6 +86,19 @@ class BookService {
             books.splice(idx, 1);
         }
     }
+}
+
+async function getCountViews(bookId) {
+    let url = `${counterUrl}/counter/${bookId}/incr`;
+    return axios.post(url)
+        .then(resCount => {
+            const {count} = resCount.data;
+            return count;
+        })
+        .catch(error => {
+            console.log(error)
+            return 0;
+        });
 }
 
 async function getById(id) {
