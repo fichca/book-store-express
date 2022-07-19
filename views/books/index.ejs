@@ -20,10 +20,10 @@
                 <th scope="row"><%= idx + 1 %></th>
                 <td><%= book.getTitle() %></td>
                 <td class="text-right">
-                    <a class="btn btn-sm btn-success" href="/books/book/<%= book.getId() %>">
+                    <a class="btn btn-sm btn-success" id="view_book" href="/books/book/<%= book.getId() %>">
                         <i class="fa fa-eye" aria-hidden="true"></i>
                     </a>
-                    <a class="btn btn-sm btn-primary" href="/books/update/<%= book.getId()%>">
+                    <a class="btn btn-sm btn-primary" href="/books/update/<%= book.getId() %>">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                     </a>
                     <form action="/books/delete/<%= book.getId() %>" method="POST" class="d-inline">
@@ -33,10 +33,17 @@
                     </form>
                 </td>
             </tr>
+            <script>
+                const view_book = document.querySelector("#view_book");
+                view_book.addEventListener("click", () => {
+                    fetch("<%= process.env.COUNTER_URL %>/counter/<%= book.getId() %>/incr", {method: "POST"})
+                });
+            </script>
         <% }) %>
 
         </tbody>
     </table>
+
 <% } else { %>
     <h3 class="mt-5">There are no notes</h3>
 <% } %>
