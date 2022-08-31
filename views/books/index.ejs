@@ -2,7 +2,7 @@
 <%- include('../port/menu') %>
 
 <h1><%= title %></h1>
-<a class="btn btn-sm btn-primary" href="/books/create">Create book</a>
+<a class="btn btn-sm btn-primary" href="/books/create">Create bookScheme</a>
 
 <% if(books.length) { %>
     <table class="table table-striped table-sm  mt-3">
@@ -15,18 +15,18 @@
         </thead>
         <tbody>
 
-        <% books.map((book, idx) => { %>
+        <% books.map((bookScheme, idx) => { %>
             <tr>
                 <th scope="row"><%= idx + 1 %></th>
-                <td><%= book.getTitle() %></td>
+                <td><%= bookScheme.getTitle() %></td>
                 <td class="text-right">
-                    <a class="btn btn-sm btn-success" id="view_book" href="/books/book/<%= book.getId() %>">
+                    <a class="btn btn-sm btn-success" id="view_book" href="/books/bookScheme/<%= bookScheme.getId() %>">
                         <i class="fa fa-eye" aria-hidden="true"></i>
                     </a>
-                    <a class="btn btn-sm btn-primary" href="/books/update/<%= book.getId() %>">
+                    <a class="btn btn-sm btn-primary" href="/books/update/<%= bookScheme.getId() %>">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                     </a>
-                    <form action="/books/delete/<%= book.getId() %>" method="POST" class="d-inline">
+                    <form action="/books/delete/<%= bookScheme.getId() %>" method="POST" class="d-inline">
                         <button class="btn btn-sm btn-danger">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </button>
@@ -36,7 +36,7 @@
             <script>
                 const view_book = document.querySelector("#view_book");
                 view_book.addEventListener("click", () => {
-                    fetch("<%= process.env.COUNTER_URL %>/counter/<%= book.getId() %>/incr", {method: "POST"})
+                    fetch("<%= process.env.COUNTER_URL %>/counter/<%= bookScheme.getId() %>/incr", {method: "POST"})
                 });
             </script>
         <% }) %>

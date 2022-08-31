@@ -1,22 +1,37 @@
 services:
+  storage:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=example
+      - ME_CONFIG_MONGODB_URL=mongodb://root:example@storage:27017/
   book-storage:
     build: .
-    networks:
-      - my-net
     ports:
       - 80:3000
+    depends_on:
+      - storage
+    entrypoint: "./wait-for-it.sh storage:27017"
+    links:
+      - storage
+      - counter
     environment:
       - SERVER_PORT=3000
       - COUNTER_URL=http://counter:3000
+      - MONGO_URL=mongodb://root:example@storage:27017
   counter:
     image: fichca/counter
-    networks:
-      - my-net
     ports:
-      - 81:3000
+      - 83:3000
     environment:
       - SERVER_PORT=3000
-
-networks:
-  my-net:
-    driver: bridge

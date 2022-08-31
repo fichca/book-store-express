@@ -8,17 +8,17 @@
         <div class="card">
             <div class="card-body">
 
-                <h5 class="card-title"><%='Title: ' + book.getTitle() %></h5>
-                <p class="card-text"><%='Description: ' + book.getDescription() %></p>
-                <p class="card-text"><%='Authors: ' + book.getAuthors() %></p>
-                <p class="card-text"><%='Favorite: ' + book.getFavorite() %></p>
-                <p class="card-text"><%='Views: ' +  book.getViews()%></p>
+                <h5 class="card-title"><%='Title: ' + bookScheme.getTitle() %></h5>
+                <p class="card-text"><%='Description: ' + bookScheme.getDescription() %></p>
+                <p class="card-text"><%='Authors: ' + bookScheme.getAuthors() %></p>
+                <p class="card-text"><%='Favorite: ' + bookScheme.getFavorite() %></p>
+                <p class="card-text"><%='Views: ' +  bookScheme.getViews()%></p>
 
                 <div class="text-right">
-                    <a class="btn btn-sm btn-primary" href="/books/update/<%= book.getId() %>">
+                    <a class="btn btn-sm btn-primary" href="/books/update/<%= bookScheme.getId() %>">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                     </a>
-                    <form action="/books/delete/<%= book.getId() %>" method="POST" class="d-inline">
+                    <form action="/books/delete/<%= bookScheme.getId() %>" method="POST" class="d-inline">
                         <button class="btn btn-sm btn-danger">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </button>

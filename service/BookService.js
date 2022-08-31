@@ -1,5 +1,5 @@
 const Book = require('../model/Book');
-const fs = require('fs')
+const BookRepository = require('../model/bookScheme');
 const {counterUrl} = require("../config/config");
 const axios = require("axios");
 
@@ -41,7 +41,7 @@ class BookService {
         return new Promise((resolve, reject) => {
                 if (validate(id, title, description, authors, favorite, fileCover, fileName, fileBook)) {
                     let newBook = new Book(id, title, description, authors, favorite, fileCover, fileName, fileBook, 0);
-                    books.push(newBook);
+                    saveBook(newBook);
                     resolve(newBook)
                 } else {
                     deleteBookFile(fileBook);
@@ -101,6 +101,11 @@ async function getCountViews(bookId) {
         });
 }
 
+async function saveBook(book) {
+    let idx = books.findIndex(book => book.getId() === id);
+    return books[idx];
+}
+
 async function getById(id) {
     let idx = books.findIndex(book => book.getId() === id);
     return books[idx];
@@ -120,7 +125,5 @@ async function deleteBookFile(path) {
         }
     });
 }
-
-const books = [];
 
 module.exports = BookService;

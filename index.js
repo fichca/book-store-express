@@ -21,6 +21,16 @@ app.use('/api/user', restAuthorizationRouter);
 
 app.use(errorMiddleware);
 
-app.listen(port, () => {
-    console.log(`Start on port ${port}`);
-})
+async function start() {
+    try {
+        app.listen(port);
+        console.log(`Start app on port ${port}`);
+        await mongoose.connect(mongoURL)
+        mongoose.model()
+        console.log(`Start mongo on url ${mongoURL}`);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+start();
